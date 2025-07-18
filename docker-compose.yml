@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: bookshopuser
+      POSTGRES_PASSWORD: bookshoppassword
+      POSTGRES_DB: bookshopdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  web:
+    build: .
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    volumes:
+      - ./app:/app/app  # optional: for live code reload on your host
+    environment:
+      DATABASE_URL: postgresql://bookshopuser:bookshoppassword@db:5432/bookshopdb
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:

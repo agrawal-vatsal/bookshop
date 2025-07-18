@@ -1,0 +1,51 @@
+[project]
+name = "bookshop"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "coverage>=7.9.2",
+    "fastapi>=0.116.1",
+    "mypy>=1.17.0",
+    "pytest>=8.4.1",
+    "pytest-asyncio>=1.1.0",
+    "ruff>=0.12.4",
+    "uvicorn>=0.35.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# --- Ruff Linting ---
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+select = ["E", "F", "W", "I", "B", "C90"]
+ignore = ["B008"]
+extend-exclude = ["migrations", ".venv"]
+preview = true
+fix = true
+
+# --- Mypy Typing ---
+[tool.mypy]
+python_version = "3.13"
+strict = true
+ignore_missing_imports = true
+disable_error_code = "misc"
+
+# --- Pytest ---
+[tool.pytest.ini_options]
+addopts = "-ra -q --asyncio-mode=strict"
+testpaths = ["tests"]
+
+# --- Coverage ---
+[tool.coverage.run]
+branch = true
+source = ["bookshop"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+fail_under = 80
+
