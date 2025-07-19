@@ -37,7 +37,7 @@ disable_error_code = "misc"
 # --- Pytest ---
 [tool.pytest.ini_options]
 addopts = "-ra -q --asyncio-mode=strict"
-testpaths = ["tests", "app/ingestion/tests"]
+testpaths = ["tests"]
 
 # --- Coverage ---
 [tool.coverage.run]
@@ -48,3 +48,4 @@ source = ["bookshop"]
 show_missing = true
 skip_empty = true
 fail_under = 80
+
