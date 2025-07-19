@@ -1,0 +1,17 @@
+[run]
+branch = True
+source = app
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def __repr__
+    if __name__ == .__main__.:
+    pass
+    raise NotImplementedError
+
+omit =
+    tests/*
+
+show_missing = True
+fail_under = 80

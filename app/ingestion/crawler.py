@@ -52,7 +52,9 @@ class BooksToScrapeCrawler:
     ) -> Optional[str]:
         cat_url = f"{CATALOGUE_URL}/page-{page}.html"
         html = await cls.fetch_url(session, cat_url)
-        if not html:
+        # Explicitly check for empty string
+        if html == "":
+            logger.warning(f"Empty HTML content received for page {page}, skipping save")
             return None
 
         await cls.save_html(html, f"catalogue_page_{page}.html")

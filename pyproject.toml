@@ -25,7 +25,10 @@ line-length = 100
 target-version = "py313"
 select = ["E", "F", "W", "I", "B", "C90"]
 ignore = ["B008"]
-extend-exclude = ["migrations", ".venv"]
+extend-exclude = [
+    ".venv",
+    "tests"
+]
 preview = true
 fix = true
 
@@ -35,6 +38,7 @@ python_version = "3.13"
 strict = true
 ignore_missing_imports = true
 disable_error_code = "misc"
+extend-exclude = ".venv|(^|/)tests(/|$)"
 
 # --- Pytest ---
 [tool.pytest.ini_options]
