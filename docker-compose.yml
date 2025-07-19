@@ -11,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
 
   web:
     build: .
@@ -19,7 +19,7 @@ services:
     volumes:
       - ./app:/app/app  # optional: for live code reload on your host
     environment:
-      DATABASE_URL: postgresql://bookshopuser:bookshoppassword@db:5432/bookshopdb
+      DATABASE_URL: postgresql+asyncpg://bookshopuser:bookshoppassword@db:5432/bookshopdb
     ports:
       - "8000:8000"
     depends_on:

@@ -8,9 +8,10 @@ WORKDIR /app
 
 COPY pyproject.toml uv.lock ./
 RUN pip install --upgrade pip && pip install uv
-RUN uv pip install --system --no-cache-dir -e .
 
 COPY . .
+
+RUN uv pip install --system --no-cache-dir -e .
 
 EXPOSE 8000
 
