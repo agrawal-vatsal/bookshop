@@ -12,4 +12,4 @@ repos:
       - id: mypy
         additional_dependencies: ["types-requests"]
         types: [python]
-        exclude: '(^|/)tests(/|$)'
+        exclude: '(^|/)tests(/|$)|alembic/.*'

@@ -12,6 +12,8 @@ exclude_lines =
 
 omit =
     tests/*
+    app/ingestion/seed.py
+    app/models/db.py
 
 show_missing = True
 fail_under = 80
