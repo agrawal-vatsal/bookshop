@@ -42,7 +42,7 @@ disable_error_code = "misc"
 # --- Pytest ---
 [tool.pytest.ini_options]
 addopts = "-ra -q --asyncio-mode=strict"
-testpaths = ["tests"]
+testpaths = ["tests", "app/ingestion/tests/"]
 
 # --- Coverage ---
 [tool.coverage.run]
