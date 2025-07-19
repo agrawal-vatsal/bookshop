@@ -4,6 +4,8 @@ version = "0.1.0"
 description = "Add your description here"
 requires-python = ">=3.13"
 dependencies = [
+    "aiohttp>=3.12.14",
+    "bs4>=0.0.2",
     "coverage>=7.9.2",
     "fastapi>=0.116.1",
     "mypy>=1.17.0",
@@ -23,7 +25,10 @@ line-length = 100
 target-version = "py313"
 select = ["E", "F", "W", "I", "B", "C90"]
 ignore = ["B008"]
-extend-exclude = ["migrations", ".venv"]
+extend-exclude = [
+    ".venv",
+    "tests"
+]
 preview = true
 fix = true
 

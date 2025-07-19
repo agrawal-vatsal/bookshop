@@ -1,10 +1,23 @@
-from typing import Dict
+# app/main.py
 
 from fastapi import FastAPI
 
-app = FastAPI()
+
+def create_app() -> FastAPI:
+    app = FastAPI(
+        title="Bookshop API",
+        version="1.0.0",
+        description="Microservice for books with analytics and AI-powered features"
+    )
+
+    # Optionally: add root health check
+    @app.get("/", tags=["Health"])
+    def health() -> dict[str, str]:
+        return {"status": "ok"}
+
+    return app
 
 
-@app.get("/")
-def read_root() -> Dict[str, str]:
-    return {"message": "Hello, World!"}
+app = create_app()
+
+# For `uvicorn app.main:app`
