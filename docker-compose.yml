@@ -17,7 +17,7 @@ services:
     build: .
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000
     volumes:
-      - ./app:/app/app  # optional: for live code reload on your host
+      - ./app:/app/app
     environment:
       DATABASE_URL: postgresql+asyncpg://bookshopuser:bookshoppassword@db:5432/bookshopdb
     ports:
