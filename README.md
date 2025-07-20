@@ -71,17 +71,7 @@ docker compose up --build
 
 ## Usage
 
-### 1. Apply Migrations
-
-Migrations are in `alembic/` directory:
-
-From your local shell(not inside docker web shell), run:
-```bash
-alembic upgrade head
-```
-
-
-This will create all needed tables: `books` and `book_ai_details` (with embedding vector columns).
+Before starting the application, please add the OpenAI API keys to the `.env` file. The keys are required for generating summaries.
 
 ## Running docker-compose web shell
 
@@ -89,6 +79,17 @@ This will create all needed tables: `books` and `book_ai_details` (with embeddin
 docker-compose exec web bash
 ```
 Run all the following commands inside the web shell.
+
+### 1. Apply Migrations
+
+Migrations are in `alembic/` directory:
+
+To migrate the database schema to the latest version, run:
+```bash
+alembic upgrade head
+```
+
+This will create all needed tables: `books` and `book_ai_details` (with embedding vector columns).
 
 ### 2. Crawl Product Data
 
