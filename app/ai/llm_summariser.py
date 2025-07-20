@@ -1,3 +1,4 @@
+import logging
 import os
 
 from dotenv import load_dotenv
@@ -7,6 +8,8 @@ from sqlalchemy.orm import selectinload
 
 from app.models.db import async_session
 from app.models.product import Book, BookAIDetails
+
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
@@ -46,6 +49,8 @@ async def add_summary() -> int:
             max_tokens=80,
             temperature=0.8)
             summary = response.choices[0].message.content.strip()
+
+            logger.info(f"Generated summary for book '{book.name}': {summary}")
 
             if hasattr(book, 'ai_details') and book.ai_details:
                 # Update existing BookAIDetails with the summary
