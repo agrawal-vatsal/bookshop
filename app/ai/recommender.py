@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.product import Book, BookAIDetails
 
 
-async def get_similar_books(
+async def get_similar_books_to_given_book(
     session: AsyncSession, book_id: int, k: int = 5
 ) -> list[Book]:
     """
