@@ -15,3 +15,4 @@ class BookOut(BaseModel):
     upc: Optional[str] = None
     availability: Optional[str] = None
     stock_count: Optional[int] = None
+    summary: Optional[str] = None
