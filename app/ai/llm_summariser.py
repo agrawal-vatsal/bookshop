@@ -37,7 +37,7 @@ async def add_summary() -> int:
 
         new_ai_details = []
 
-        for book in books:
+        for i, book in enumerate(books):
             # Generate summary using OpenAI
             prompt = (f"Write a catchy marketing summary (≤ 40 words) for this book:\nTitle: "
                       f"{book.name}\nDescription: {book.description or ''}")
@@ -59,6 +59,9 @@ async def add_summary() -> int:
                 # Create new BookAIDetails with the summary
                 new_ai_details.append(BookAIDetails(book_id=book.id, summary=summary))
 
+            if i % 10 == 0:
+                print(f"Processed {i + 1}/{len(books)} books...")
+
         # Bulk add new BookAIDetails records
         if new_ai_details:
             session.add_all(new_ai_details)
@@ -73,6 +76,8 @@ if __name__ == "__main__":
     import asyncio
 
     async def run() -> None:
+        print("Generating summaries for books...")
         await add_summary()
+        print("Summaries generated and stored successfully.")
 
     asyncio.run(run())
