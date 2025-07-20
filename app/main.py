@@ -1,4 +1,4 @@
-from api import products
+from api import analytics, products
 from fastapi import FastAPI
 
 
@@ -10,6 +10,7 @@ def create_app() -> FastAPI:
     )
 
     app.include_router(products.router, prefix="/api/v1/products", tags=["Products"])
+    app.include_router(analytics.router, prefix="/api/v1/analytics", tags=["Analytics"])
 
     # Optionally: add root health check
     @app.get("/", tags=["Health"])
