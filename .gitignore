@@ -299,3 +299,5 @@ pip-selfcheck.json
 .qodo/
 
 raw_html/
+
+.DS_Store

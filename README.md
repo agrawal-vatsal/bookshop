@@ -84,6 +84,8 @@ python -m app.ingestion.crawler
 
 This will save raw HTML and produce normalized records (books) to seed the database.
 
+All the files will be saved in `app/data/raw_html` directory, including raw HTML files.
+
 ### 2. Apply Migrations
 
 Migrations are in `alembic/` directory:

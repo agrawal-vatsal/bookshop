@@ -90,6 +90,7 @@ class BooksToScrapeCrawler:
         async with aiohttp.ClientSession() as session:
             # 1. Get all book detail URLs from all catalogue pages
             book_detail_urls = []
+            print(f"Fetching catalogue pages with concurrency {self.concurrency}...")
             for page in range(self.start_page, self.end_page + 1):
                 html = await self.fetch_and_save_catalogue_page(session, page)
 
@@ -114,4 +115,5 @@ class BooksToScrapeCrawler:
 
 
 if __name__ == "__main__":
+    print("Starting BooksToScrapeCrawler...")
     asyncio.run(BooksToScrapeCrawler().crawl_all_books())
