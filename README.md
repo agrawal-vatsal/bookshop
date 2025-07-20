@@ -269,7 +269,6 @@ For someone testing this application, follow these steps in order:
 4. **Seed database**: `python -m app.ingestion.seed`
 5. **Generate embeddings**: `python -m app.ai.embeddings`
 6. **Generate summaries**: `python -m app.ai.llm_summariser`
-7. **Test API endpoints**: Navigate to http://localhost:8000/docs
 
 ---
 
