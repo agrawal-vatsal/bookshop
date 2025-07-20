@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+asyncpg://postgres:postgres@localhost:5432/bookshopdb"
+    "postgresql+asyncpg://bookshopuser:bookshoppassword@db:5432/bookshopdb"
 )
 
 engine = create_async_engine(
