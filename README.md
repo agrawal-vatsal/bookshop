@@ -45,6 +45,13 @@ This project provides async scraping, robust storage, RESTful APIs, and AI-drive
 - Docker & Docker Compose
 - PostgreSQL server
 
+## Running docker-compose web shell
+
+```
+docker-compose exec web bash
+```
+Run all the following commands inside the web shell.
+
 ### 1. Clone and prepare
 
 ```bash
