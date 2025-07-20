@@ -1,9 +1,11 @@
-from typing import Optional, Sequence, cast
+from typing import Any, Optional, Sequence, cast
 
 from sqlalchemy import and_, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from app.models.product import Book
+from app.schemas.product import BookDetailOut, BookListOut
 
 
 async def get_books(
@@ -41,11 +43,36 @@ async def get_books(
     query = query.offset(skip).limit(limit)
 
     result = await session.execute(query)
-    return cast(Sequence[Book], result.scalars().all())
+    return cast(Sequence[BookListOut], result.scalars().all())
 
 
-async def get_book_by_id(session: AsyncSession, book_id: int) -> Optional[Book]:
-    result = await session.execute(
-        select(Book).where(Book.id == book_id)
-    )
-    return cast(Optional[Book], result.scalar_one_or_none())
+def book_to_dict(book: Book) -> dict[str, Any]:
+    """Convert a Book model to dictionary including summary from ai_details"""
+    book_dict = {
+        "id": book.id,
+        "name": book.name,
+        "price": book.price,
+        "rating": book.rating,
+        "description": book.description,
+        "category": book.category,
+        "upc": book.upc,
+        "availability": book.availability,
+        "stock_count": book.stock_count,
+        "summary": book.ai_details.summary if book.ai_details else None
+    }
+    return book_dict
+
+
+async def get_book_by_id(session: AsyncSession, book_id: int) -> Optional[BookDetailOut]:
+    query = select(Book).options(
+        selectinload(Book.ai_details)  # Eager load AI details if needed
+    ).where(Book.id == book_id)
+    result = await session.execute(query)
+    result_data = result.scalar_one_or_none()
+
+    if result_data is None:
+        return None
+
+    # Convert to BookDetailOut schema
+    book_dict = book_to_dict(result_data)
+    return cast(BookListOut, BookDetailOut.model_validate(book_dict))

@@ -1,13 +1,13 @@
 import pytest
 from pydantic import ValidationError
 
-from schemas.product import BookOut
+from schemas.product import BookDetailOut
 
 
 class TestProductOut:
 
     def test_product_out_valid_full(self):
-        product = BookOut(
+        product = BookDetailOut(
             id=1,
             name="Widget",
             price=12.5,
@@ -29,7 +29,7 @@ class TestProductOut:
         assert product.stock_count == 10
 
     def test_valid_required_fields_only(self):
-        BookOut(
+        BookDetailOut(
             id=2,
             name="Gadget",
             price=2.50,
@@ -38,7 +38,7 @@ class TestProductOut:
 
     def test_invalid_price_type(self):
         with pytest.raises(ValidationError):
-            BookOut(
+            BookDetailOut(
                 id=3,
                 name="Invalid",
                 price="wrong_type",
@@ -47,7 +47,7 @@ class TestProductOut:
 
     def test_invalid_optional_stock_count_type(self):
         with pytest.raises(ValidationError):
-            BookOut(
+            BookDetailOut(
                 id=4,
                 name="Another",
                 price=5.50,
