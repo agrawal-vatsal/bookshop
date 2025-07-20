@@ -50,7 +50,7 @@ This project provides async scraping, robust storage, RESTful APIs, and AI-drive
 ```bash
 git clone https://github.com/agrawal-vatsal/bookshop.git
 cd bookshop
-cp .env.example .env  # Edit DB URI as needed, but matches Docker defaults
+cp .env.example .env
 python3 -m venv .venv
 source .venv/bin/activate  # Activate virtual environment
 pip install uv
