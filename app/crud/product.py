@@ -75,4 +75,4 @@ async def get_book_by_id(session: AsyncSession, book_id: int) -> Optional[BookDe
 
     # Convert to BookDetailOut schema
     book_dict = book_to_dict(result_data)
-    return cast(BookListOut, BookDetailOut.model_validate(book_dict))
+    return cast(BookDetailOut, BookDetailOut.model_validate(book_dict))

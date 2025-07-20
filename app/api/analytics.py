@@ -1,6 +1,8 @@
-from typing import Any
+from typing import Any, List
 
+from ai.recommender import get_similar_books_to_given_book
 from fastapi import APIRouter, Depends, HTTPException
+from schemas.product import BookListOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.analytics import (
@@ -53,8 +55,10 @@ async def get_available_trends() -> dict[str, Any]:
 
 
 @router.get("/trends/{trend_key}")
-async def get_trend_data(trend_key: str,
-                         session: AsyncSession = Depends(get_session)) -> dict[str, Any]:
+async def get_trend_data(
+        trend_key: str,
+        session: AsyncSession = Depends(get_session)
+) -> dict[str, Any]:
     """Get data for a specific trend"""
     if trend_key not in AVAILABLE_TRENDS:
         raise HTTPException(status_code=404, detail=f"Trend '{trend_key}' not found")
@@ -76,3 +80,16 @@ async def get_trend_data(trend_key: str,
         "trend_info": AVAILABLE_TRENDS[trend_key],
         "data": data
     }
+
+
+@router.get("/trends/similar_books/{book_id}", response_model=List[BookListOut])
+async def get_similar_books(
+        book_id: int,
+        session: AsyncSession = Depends(get_session)
+) -> List[BookListOut]:
+    """Get similar books based on a given book ID"""
+    similar_books = await get_similar_books_to_given_book(session, book_id)
+    if not similar_books:
+        raise HTTPException(status_code=404, detail="No similar books found")
+
+    return [BookListOut.model_validate(book) for book in similar_books]
