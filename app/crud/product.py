@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.models.product import Book
 
 
-async def get_products(
+async def get_books(
     session: AsyncSession,
     skip: int = 0,
     limit: int = 20,
@@ -44,8 +44,8 @@ async def get_products(
     return cast(Sequence[Book], result.scalars().all())
 
 
-async def get_product_by_id(session: AsyncSession, product_id: int) -> Optional[Book]:
+async def get_book_by_id(session: AsyncSession, book_id: int) -> Optional[Book]:
     result = await session.execute(
-        select(Book).where(Book.id == product_id)
+        select(Book).where(Book.id == book_id)
     )
     return cast(Optional[Book], result.scalar_one_or_none())

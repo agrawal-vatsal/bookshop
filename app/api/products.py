@@ -1,16 +1,16 @@
-from typing import List, Optional
+from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.crud.product import get_product_by_id, get_products
+from app.crud.product import get_book_by_id, get_books
 from app.models.db import get_session
 from app.schemas.product import BookOut
 
 router = APIRouter()
 
 
-@router.get("/", response_model=List[BookOut])
+@router.get("/", response_model=dict[str, Any])
 async def list_products(
     skip: int = Query(0, ge=0),
     limit: int = Query(20, ge=1, le=100),
@@ -20,8 +20,8 @@ async def list_products(
     category: Optional[str] = Query(None),
     q: Optional[str] = Query(None),
     session: AsyncSession = Depends(get_session),
-) -> List[BookOut]:
-    products = await get_products(
+) -> dict[str, Any]:
+    books = await get_books(
         session=session,
         skip=skip,
         limit=limit,
@@ -31,15 +31,15 @@ async def list_products(
         category=category,
         q=q,
     )
-    return [BookOut.model_validate(product) for product in products]
+    return {"books": [BookOut.model_validate(book) for book in books], "total": len(books)}
 
 
-@router.get("/{product_id}", response_model=BookOut)
-async def product_detail(
-    product_id: int,
+@router.get("/{book_id}", response_model=BookOut)
+async def book_detail(
+    book_id: int,
     session: AsyncSession = Depends(get_session),
 ) -> BookOut:
-    product = await get_product_by_id(session, product_id)
-    if not product:
-        raise HTTPException(status_code=404, detail="Product not found")
-    return product
+    book = await get_book_by_id(session, book_id)
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return book
