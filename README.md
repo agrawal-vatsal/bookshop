@@ -51,6 +51,7 @@ This project provides async scraping, robust storage, RESTful APIs, and AI-drive
 git clone https://github.com/agrawal-vatsal/bookshop.git
 cd bookshop
 cp .env.example .env
+# Following lines for local development only
 python3 -m venv .venv
 source .venv/bin/activate  # Activate virtual environment
 pip install uv
