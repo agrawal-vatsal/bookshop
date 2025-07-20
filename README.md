@@ -43,7 +43,7 @@ This project provides async scraping, robust storage, RESTful APIs, and AI-drive
 
 - Python 3.13+
 - Docker & Docker Compose
-- (For direct use) PostgreSQL server with pgvector extension
+- PostgreSQL server
 
 ### 1. Clone and prepare
 
