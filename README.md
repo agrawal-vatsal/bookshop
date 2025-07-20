@@ -48,7 +48,7 @@ This project provides async scraping, robust storage, RESTful APIs, and AI-drive
 ### 1. Clone and prepare
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/bookshop.git
+git clone https://github.com/agrawal-vatsal/bookshop.git
 cd bookshop
 cp .env.example .env  # Edit DB URI as needed, but matches Docker defaults
 ```
