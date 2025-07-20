@@ -1,8 +1,8 @@
 import numpy as np
-from models.product import Book
 from sentence_transformers import SentenceTransformer
 
 from app.models.db import async_session
+from app.models.product import Book, BookAIDetails
 
 MODEL_NAME = "all-MiniLM-L6-v2"
 model = SentenceTransformer(MODEL_NAME)
@@ -24,7 +24,6 @@ def embed_book(book: Book) -> np.ndarray:
 
 
 async def generate_and_store_embeddings() -> None:
-    from app.models.product import Book, BookAIDetails
 
     async with async_session() as session:
         # Single query to get all books with their BookAIDetails (if they exist)
