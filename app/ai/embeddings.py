@@ -54,6 +54,8 @@ if __name__ == "__main__":
     import asyncio
 
     async def main() -> None:
+        print("Generating and storing embeddings for books...")
         await generate_and_store_embeddings()
+        print("Embeddings generated and stored successfully.")
 
     asyncio.run(main())
