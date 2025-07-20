@@ -58,6 +58,8 @@ pip install uv
 uv sync
 ```
 
+Add the OpenAI API keys to the `.env` file. The key is required for generating summaries.
+
 ### 2. Launch with Docker Compose (Recommended)
 
 All app and DB services will spin up:
@@ -71,8 +73,6 @@ docker compose up --build
 ---
 
 ## Usage
-
-Before starting the application, please add the OpenAI API keys to the `.env` file. The keys are required for generating summaries.
 
 ## Running docker-compose web shell
 
