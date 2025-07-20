@@ -71,6 +71,18 @@ docker compose up --build
 
 ## Usage
 
+### 1. Apply Migrations
+
+Migrations are in `alembic/` directory:
+
+From your local shell(not inside docker web shell), run:
+```bash
+alembic upgrade head
+```
+
+
+This will create all needed tables: `books` and `book_ai_details` (with embedding vector columns).
+
 ## Running docker-compose web shell
 
 ```
@@ -78,7 +90,7 @@ docker-compose exec web bash
 ```
 Run all the following commands inside the web shell.
 
-### 1. Crawl Product Data
+### 2. Crawl Product Data
 
 To collect book data from websites:
 
@@ -89,17 +101,6 @@ python -m app.ingestion.crawler
 This will save raw HTML and produce normalized records (books) to seed the database.
 
 All the files will be saved in `app/data/raw_html` directory, including raw HTML files.
-
-### 2. Apply Migrations
-
-Migrations are in `alembic/` directory:
-
-From your local shell(not inside docker web shell), run:
-```bash
-alembic upgrade head
-```
-
-This will create all needed tables: `books` and `book_ai_details` (with embedding vector columns).
 
 ### 3. Seed the Database
 

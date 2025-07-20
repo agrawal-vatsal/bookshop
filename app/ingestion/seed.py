@@ -36,8 +36,10 @@ async def insert_books(books: List[Dict[str, Optional[Any]]]) -> None:
 async def main() -> None:
     books = BooksDataExtractor.extract_books_from_dir(directory="app/data/raw_html")
     logger.info(f"Discovered {len(books)} book detail pages.")
+    print(f"Discovered {len(books)} book detail pages.")
     await insert_books(books)
     logger.info("Books inserted successfully.")
+    print("Books inserted successfully.")
 
 
 if __name__ == "__main__":
