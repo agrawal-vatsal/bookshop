@@ -1,7 +1,7 @@
 from typing import Any
 
 import numpy as np
-from sqlalchemy import and_, desc, func, select
+from sqlalchemy import desc, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.product import Book
@@ -88,33 +88,39 @@ async def avg_rating_for_popular_categories(session: AsyncSession,
 
 async def get_highest_rated_books_per_category(session: AsyncSession) -> list[dict[str, Any]]:
     """
-    Returns the highest rated book for each category.
+    Returns exactly one book with the highest rating for each category (if tie: first by id).
     """
-    subquery = (
-        select(
-            Book.category,
-            func.max(Book.rating).label('max_rating')
-        )
-        .group_by(Book.category)
-        .subquery()
-    )
 
-    result = await session.execute(
-        select(Book)
-        .join(subquery, and_(
-            Book.category == subquery.c.category,
-            Book.rating == subquery.c.max_rating
-        ))
-    )
+    # Add a "rank" to each book partitioned by category, ordered by rating DESC, id ASC
+    # (for tie-break)
+    rank = func.rank().over(
+        partition_by=Book.category,
+        order_by=[Book.rating.desc(), Book.id.asc()]
+    ).label("rnk")
 
-    books = result.scalars().all()
+    stmt = (
+        select(Book, rank)
+        .where(Book.rating.isnot(None))
+        .order_by(Book.category, Book.rating.desc(), Book.id.asc())
+    ).subquery()
+
+    # Now filter for only rnk == 1 (top rated per category)
+    stmt2 = select(
+        stmt.c.id,
+        stmt.c.name,
+        stmt.c.category,
+        stmt.c.rating,
+    ).where(stmt.c.rnk == 1)
+
+    result = await session.execute(stmt2)
+    rows = result.fetchall()
 
     return [
         {
-            "id": book.id,
-            "name": book.name,
-            "category": book.category,
-            "rating": book.rating
+            "id": row.id,
+            "name": row.name,
+            "category": row.category,
+            "rating": row.rating,
         }
-        for book in books
+        for row in rows
     ]
