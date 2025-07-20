@@ -167,7 +167,7 @@ Returns a paginated list of books with filtering options.
       "stock_count": int,
     }
   ],
-  "total": 123
+  "total": int
 }
 ```
 
