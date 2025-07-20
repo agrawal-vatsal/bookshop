@@ -51,6 +51,10 @@ This project provides async scraping, robust storage, RESTful APIs, and AI-drive
 git clone https://github.com/agrawal-vatsal/bookshop.git
 cd bookshop
 cp .env.example .env  # Edit DB URI as needed, but matches Docker defaults
+python3 -m venv .venv
+source .venv/bin/activate  # Activate virtual environment
+pip install uv
+uv sync
 ```
 
 ### 2. Launch with Docker Compose (Recommended)
@@ -90,6 +94,7 @@ All the files will be saved in `app/data/raw_html` directory, including raw HTML
 
 Migrations are in `alembic/` directory:
 
+From your local shell(not inside docker web shell), run:
 ```bash
 alembic upgrade head
 ```
