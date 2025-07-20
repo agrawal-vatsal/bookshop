@@ -40,7 +40,7 @@ async def get_books(
 
     if filters:
         query = query.where(and_(*filters))
-    query = query.offset(skip).limit(limit)
+    query = query.order_by(Book.id).offset(skip).limit(limit)
 
     result = await session.execute(query)
     return cast(Sequence[BookListOut], result.scalars().all())

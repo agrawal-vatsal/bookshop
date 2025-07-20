@@ -213,14 +213,11 @@ Returns pricing, rating, or category analysis of the book catalog.
 **Response:**
 Trend analysis data including pricing patterns and rating distributions.
 
-#### `GET /api/v1/analytics/recommendations/{product_id}`
+#### `GET /api/v1/analytics/trends/similar_books/{book_id}`
 Returns books similar to the specified book using vector embeddings.
 
 **Path Parameters:**
-- `product_id`: The ID of the book to find recommendations for
-
-**Query Parameters:**
-- `limit`: Maximum number of recommendations to return (optional)
+- `book_id`: The ID of the book to find recommendations for
 
 **Response:**
 A list of recommended books sorted by similarity score.
