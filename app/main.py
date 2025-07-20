@@ -1,5 +1,4 @@
-# app/main.py
-
+from api import products
 from fastapi import FastAPI
 
 
@@ -10,6 +9,8 @@ def create_app() -> FastAPI:
         description="Microservice for books with analytics and AI-powered features"
     )
 
+    app.include_router(products.router, prefix="/api/v1/products", tags=["Products"])
+
     # Optionally: add root health check
     @app.get("/", tags=["Health"])
     def health() -> dict[str, str]:
@@ -19,5 +20,3 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
-
-# For `uvicorn app.main:app`
