@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.crud.product import get_book_by_id, get_books
 from app.models.db import get_session
-from app.schemas.product import BookOut
+from app.schemas.product import BookDetailOut, BookListOut
 
 router = APIRouter()
 
@@ -31,14 +31,14 @@ async def list_products(
         category=category,
         q=q,
     )
-    return {"books": [BookOut.model_validate(book) for book in books], "total": len(books)}
+    return {"books": [BookListOut.model_validate(book) for book in books], "total": len(books)}
 
 
-@router.get("/{book_id}", response_model=BookOut)
+@router.get("/{book_id}", response_model=BookDetailOut)
 async def book_detail(
     book_id: int,
     session: AsyncSession = Depends(get_session),
-) -> BookOut:
+) -> BookDetailOut:
     book = await get_book_by_id(session, book_id)
     if not book:
         raise HTTPException(status_code=404, detail="Book not found")
