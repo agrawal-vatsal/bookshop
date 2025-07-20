@@ -105,7 +105,10 @@ class BooksToScrapeCrawler:
 
             # 2. Fetch and save each book's detail page HTML
             if book_detail_urls:
+                print(f"Fetching and saving {len(book_detail_urls)} book detail pages with "
+                      f"concurrency {self.concurrency}...")
                 await self.fetch_and_save_books(session, book_detail_urls, self.concurrency)
+                print(f"Successfully fetched and saved {len(book_detail_urls)} book detail pages.")
             else:
                 logger.warning("No book detail URLs found to fetch.")
 
