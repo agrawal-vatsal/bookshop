@@ -135,16 +135,6 @@ This will query an LLM for each product that lacks a summary and update the data
 
 ---
 
-## Running the API
-
-The app is bootstrapped via `app/main.py`:
-
-```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
-
----
-
 ## API Endpoints
 
 ### Products
