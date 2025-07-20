@@ -189,7 +189,7 @@ Returns detailed information about a specific book.
   "availability": str,
   "stock_count": int,
   "description": str,
-  "ai_summary": str | null,  // AI-generated summary if available
+  "summary": str | null,  // AI-generated summary if available
 }
 ```
 
