@@ -1,6 +1,7 @@
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+from app.crud.product import get_books_with_no_embedding
 from app.models.db import async_session
 from app.models.product import Book, BookAIDetails
 
@@ -27,7 +28,7 @@ async def generate_and_store_embeddings() -> None:
 
     async with async_session() as session:
         # Single query to get all books with their BookAIDetails (if they exist)
-        books = await Book.get_books_with_no_embedding(session)
+        books = await get_books_with_no_embedding(session)
 
         new_details = []
 

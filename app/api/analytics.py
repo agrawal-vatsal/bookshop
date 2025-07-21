@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from schemas.product import BookListOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.analytics import (
+from app.crud.analytics import (
     average_price_by_category,
     average_price_by_rating_decile,
     avg_rating_for_popular_categories,
@@ -73,7 +73,6 @@ async def get_trend_data(
         data = await average_price_by_category(session)
     elif trend_key == "highest_rated_books_per_category":
         data = await get_highest_rated_books_per_category(session)
-        print(data)
 
     return {
         "trend_key": trend_key,
