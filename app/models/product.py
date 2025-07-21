@@ -1,9 +1,6 @@
-from typing import cast
-
 from pgvector.sqlalchemy import Vector
-from sqlalchemy import Column, Float, ForeignKey, Integer, String, or_, select
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import relationship, selectinload
+from sqlalchemy import Column, Float, ForeignKey, Integer, String
+from sqlalchemy.orm import relationship
 
 from app.models.db import Base
 
@@ -13,7 +10,7 @@ class BookAIDetails(Base):
 
     id = Column(Integer, primary_key=True)
     book_id = Column(
-        Integer, ForeignKey("books.id"), nullable=False, unique=True
+        Integer, ForeignKey("books.id", ondelete="CASCADE"), nullable=False, unique=True
     )
     summary = Column(String)
     embedding = Column(Vector(384))
@@ -35,15 +32,3 @@ class Book(Base):
     stock_count = Column(Integer)
 
     ai_details = relationship("BookAIDetails", back_populates="book", uselist=False)
-
-    @classmethod
-    async def get_books_with_no_embedding(cls, session: AsyncSession) -> list["Book"]:
-        query = select(Book).outerjoin(BookAIDetails).options(
-            selectinload(Book.ai_details)
-        ).where(
-            or_(
-                BookAIDetails.book_id.is_(None),  # No BookAIDetails exists
-                BookAIDetails.embedding.is_(None)  # BookAIDetails exists but embedding is null
-            )
-        )
-        return cast(list["Book"], (await session.execute(query)).scalars().unique().all())

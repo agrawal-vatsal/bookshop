@@ -4,7 +4,7 @@ from sqlalchemy import and_, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from app.models.product import Book
+from app.models.product import Book, BookAIDetails
 from app.schemas.product import BookDetailOut, BookListOut
 
 
@@ -76,3 +76,15 @@ async def get_book_by_id(session: AsyncSession, book_id: int) -> Optional[BookDe
     # Convert to BookDetailOut schema
     book_dict = book_to_dict(result_data)
     return cast(BookDetailOut, BookDetailOut.model_validate(book_dict))
+
+
+async def get_books_with_no_embedding(session: AsyncSession) -> list["Book"]:
+    query = select(Book).outerjoin(BookAIDetails).options(
+        selectinload(Book.ai_details)
+    ).where(
+        or_(
+            BookAIDetails.book_id.is_(None),  # No BookAIDetails exists
+            BookAIDetails.embedding.is_(None)  # BookAIDetails exists but embedding is null
+        )
+    )
+    return cast(list["Book"], (await session.execute(query)).scalars().unique().all())
