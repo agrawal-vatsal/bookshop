@@ -24,7 +24,7 @@ jobs:
           pip install -e .[dev]
 
       - name: Start Docker Compose services
-        run: docker-compose up -d test_db
+        run: docker compose up -d test_db
 
       - name: Wait for test_db to be healthy
         run: |
