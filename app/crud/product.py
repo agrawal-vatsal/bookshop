@@ -17,7 +17,7 @@ async def get_books(
     min_rating: Optional[int] = None,
     category: Optional[str] = None,
     q: Optional[str] = None,
-) -> Sequence[Book]:
+) -> Sequence[BookListOut]:
     query = select(Book)
     filters = []
 

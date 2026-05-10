@@ -104,7 +104,7 @@ async def get_highest_rated_books_per_category(session: AsyncSession) -> list[di
         .order_by(Book.category, Book.rating.desc(), Book.id.asc())
     ).subquery()
 
-    # Now filter for only rnk == 1 (top rated per category)
+    # Now filter for only rnk == 1 (top-rated per category)
     stmt2 = select(
         stmt.c.id,
         stmt.c.name,
